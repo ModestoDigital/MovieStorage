@@ -8,7 +8,7 @@ const port = 3000;
 const movieService = new MovieService();
 
 async function initializeApp() {
-  const csvFilePath = './src/data/Movielist.csv'; // Adjust to your CSV file path
+  const csvFilePath = './src/data/Movielist.csv'; 
   await movieService.loadMoviesData(csvFilePath);
   console.log('Movies data loaded into SQLite database.');
 }
