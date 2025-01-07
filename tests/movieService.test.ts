@@ -26,10 +26,10 @@ describe('GET /producers-awards', () => {
   it('should return the producers with max and min award intervals', async () => {
     const response = await request(app).get('/producers-awards');
 
-    console.log('Response status:', response.status); // Log response status
-    console.log('Response body:', response.body); // Log response body to ensure it's valid
+    console.log('Response status:', response.status);
+    console.log('Response body:', response.body);
 
-    expect(response.status).toBe(200); // Ensure status is 200
+    expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('max');
     expect(response.body).toHaveProperty('min');
     expect(Array.isArray(response.body.max)).toBe(true);
