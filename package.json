@@ -29,9 +29,10 @@
     "test": "jest"
   },
   "scripts": {
-    "start": "node src/app/app.ts",
+    "start": "ts-node src/app/app.ts",
     "start:dev": "nodemon --exec ts-node src/app/app.ts",
-    "test": "jest --config jest.config.js"
+    "test": "jest --config jest.config.js --detectOpenHandles",
+    "checkTest": "jest --detectOpenHandles"
   },
   "keywords": [],
   "author": "",

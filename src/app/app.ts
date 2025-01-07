@@ -13,30 +13,42 @@ async function initializeApp() {
   console.log('Movies data loaded into SQLite database.');
 }
 
-initializeApp()
-  .then(() => {
-    app.use(morgan('combined'));
+async function startServer() {
+  app.use(morgan('combined'));
 
-    app.get('/producers-awards', async (req, res) => {
-      try {
-        const result = await movieService.getProducersAwards();
-        res.json(result);
-      } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-      }
-    });
-
-    app.get('/health', async (req, res) =>{
-        res.status(200).send(`It's alive, it's alive`)
-    })
-
-    app.listen(port, () => {
-      console.log(`Server running at http://localhost:${port}`);
-    });
-  })
-  .catch((error) => {
-    console.error('Error initializing the app:', error);
+  app.get('/producers-awards', async (req, res) => {
+    try {
+      const result = await movieService.getProducersAwards();
+      res.json(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
   });
 
-export {app};
+  app.get('/health', async (req, res) => {
+    res.status(200).send(`It's alive, it's alive`);
+  });
+
+  return new Promise((resolve, reject) => {
+    const server = app.listen(port, (err?: any) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(server);
+      }
+    });
+  });
+}
+
+initializeApp().then(()=>{
+  startServer()
+    .then((server) => {
+      console.log(`Server running at http://localhost:${port}`);
+    })
+    .catch((error) => {
+      console.error('Error initializing the app:', error);
+    });
+}) 
+
+export { app, initializeApp };
